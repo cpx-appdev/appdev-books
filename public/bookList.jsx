@@ -14,8 +14,8 @@ class BookList extends React.Component {
             });
     }
 
-    f(x, y, ...a) {
-        return (x + y) * a.length;
+    returnBook(bookId) {
+        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: "" } }));
     }
 
     borrow(bookId, name) {
@@ -31,11 +31,20 @@ class BookList extends React.Component {
             }
         }
 
-        return <ul>{
-            books.map(book => <li key={book.id}>{book.title}: {book.borrowedFrom}
-                <Borrow borrowedFrom={book.borrowedFrom} borrow={this.borrow.bind(this, book.id)} />
-            </li>)
-        }</ul>;
+        return <table>
+            <tr>
+                <th>Titel</th>
+                <th>Verliehen an</th>
+                <th></th>
+            </tr>
+            {books.map(book =>
+                <tr key={book.id}>
+                    <td>{book.title}</td>
+                    <td>{book.borrowedFrom ? book.borrowedFrom : "-"}</td>
+                    <td>{book.borrowedFrom ? <button onClick={this.returnBook.bind(this, book.id)}>Return</button> : <Borrow borrowedFrom={book.borrowedFrom} borrow={this.borrow.bind(this, book.id)} />}</td>
+                </tr>
+            )
+            }</table>;
     }
 }
 

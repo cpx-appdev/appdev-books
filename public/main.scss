@@ -8,6 +8,12 @@ h1 {
     font-weight: lighter;
 }
 
+td
+{
+    text-align: center;
+    padding: 4px 10px;
+}
+
 #root:empty:after {
     content: 'Loading';
 }
