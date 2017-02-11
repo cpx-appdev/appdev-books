@@ -19,7 +19,7 @@ class BookList extends React.Component {
     }
 
     borrow(bookId, name) {
-        this.setState({ [bookId]: { ...this.state[bookId], borrowedFrom: name } });
+        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: name } }));
     }
 
     render() {
