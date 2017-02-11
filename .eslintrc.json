@@ -21,7 +21,8 @@
         "constructor-super": "warn",
         "valid-typeof": "warn",
         "react/self-closing-comp": "warn",
-        "quotes": ["warn", "double"]
+        "quotes": ["warn", "double"],
+        "no-console": "warn"
     },
     "plugins": [
         "react"

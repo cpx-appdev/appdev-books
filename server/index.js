@@ -10,8 +10,8 @@ app.use("/", express.static(path.resolve(__dirname + "/../public")));
 
 app.get("/books", (req, res) => {
     const books = [
-        { id: "1", title: "Book 1" },
-        { id: "2", title: "Book 2" }];
+        { id: "1", isbn: "", title: "Book 1", "borrowedFrom": "" },
+        { id: "2", isbn: "", title: "Book 2", "borrowedFrom": "" }];
 
     res.json(books);
 });
