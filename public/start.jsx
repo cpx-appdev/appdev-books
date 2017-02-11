@@ -1,5 +1,6 @@
 import React from "react";
 import BookList from "./bookList";
+import AddBook from "./addBook";
 
 class Start extends React.Component {
   constructor() {
@@ -14,7 +15,11 @@ class Start extends React.Component {
       return null; // render null when app is not ready
     }
 
-    return <BookList />;
+    return <div>
+      <h1>Books</h1>
+      <BookList />
+      <AddBook />
+    </div>
   }
 
   componentDidMount() {
