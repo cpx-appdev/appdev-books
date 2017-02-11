@@ -1,37 +1,41 @@
 import React from "react";
+import Borrow from "./borrow";
 
 class BookList extends React.Component {
     constructor() {
         super();
-        this.state = { books: [] };
     }
 
     componentDidMount() {
         fetch("/books")
             .then(result => result.json())
-            .then(books => this.setState({ books }));
+            .then(books => {
+                books.map(book => this.setState({ [book.id]: book }))
+            });
     }
 
-    borrow(bookId) {
-        // const books = this.state.books;
-        // alert(books.find((book) => book.id == bookId).borrowedFrom
-        // this.setState({ books });
+    f(x, y, ...a) {
+        return (x + y) * a.length;
     }
 
-    updateInputValue(bookId, evt) {
-        const books = this.state.books;
-        const book = books.find((book) => book.id == bookId);
-        book.borrowedFrom = evt.target.value;
-        this.setState({ books });
+    borrow(bookId, name) {
+        this.setState({ [bookId]: { ...this.state[bookId], borrowedFrom: name } });
     }
 
     render() {
-        return <ul>
-            {this.state.books.map(book => <li key={book.id}>{book.title}: {book.borrowedFrom}
-                <input type="text" value={book.borrowedFrom} onChange={this.updateInputValue.bind(this, book.id)} />
-                <button onClick={this.borrow.bind(this, book.id)}>Borrow</button>
-            </li>)}
-        </ul>;
+        const books = [];
+        for (let key in this.state) {
+            if (this.state.hasOwnProperty(key)) {
+                books.push(this.state[key]);
+
+            }
+        }
+
+        return <ul>{
+            books.map(book => <li key={book.id}>{book.title}: {book.borrowedFrom}
+                <Borrow borrowedFrom={book.borrowedFrom} borrow={this.borrow.bind(this, book.id)} />
+            </li>)
+        }</ul>;
     }
 }
 
