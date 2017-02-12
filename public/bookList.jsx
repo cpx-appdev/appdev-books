@@ -35,6 +35,7 @@ class BookList extends React.Component {
             <thead>
                 <tr>
                     <th>Titel</th>
+                    <th>Autor</th>
                     <th>Verliehen an</th>
                     <th />
                 </tr>
@@ -43,7 +44,7 @@ class BookList extends React.Component {
                 {books.map(book =>
                     <tr key={book.id}>
                         <td>{book.title}</td>
-                        <td>{book.isbn}</td>
+                        <td>{book.author}</td>
                         <td>{book.borrowedFrom ? book.borrowedFrom : "-"}</td>
                         <td>{book.borrowedFrom ? <button onClick={this.returnBook.bind(this, book.id)}>Return</button> : <Borrow borrowedFrom={book.borrowedFrom} borrow={this.borrow.bind(this, book.id)} />}</td>
                     </tr>

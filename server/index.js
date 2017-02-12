@@ -5,6 +5,7 @@ import uuid from "uuid";
 import bodyParser from "body-parser";
 import documentdb from "documentdb";
 import nconf from "nconf";
+import request from "request";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -72,6 +73,31 @@ function getBookById(id) {
     });
 }
 
+function addBookByIsbn(isbn) {
+    request(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
+        (error, response, body) => {
+            if (!error && response.statusCode == 200) {
+                const bookDetails = JSON.parse(body);
+                books.push({
+                    id: uuid.v4(),
+                    author: bookDetails.items[0].volumeInfo.authors.join(", "),
+                    title: bookDetails.items[0].volumeInfo.title,
+                    subtitle: "",
+                    publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
+                    edition: "",
+                    language: "",
+                    info: "",
+                    coverSmallUrl: "",
+                    coverUrl: "",
+                    pageCount: "",
+                    isbn: isbn,
+                    genre: "",
+                    publisher: bookDetails.items[0].volumeInfo.publisher
+                });
+            }
+        });
+}
+
 // getBookById("21")
 //     .then(book => {
 //         console.dir(book);
@@ -84,7 +110,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", express.static(path.resolve(__dirname + "/../public")));
 
 app.post("/addBook", (req, res) => {
-    books.push({ id: uuid.v4(), title: req.body.title, isbn: req.body.isbn });
+    addBookByIsbn(req.body.isbn);
     res.sendStatus(200);
 });
 
