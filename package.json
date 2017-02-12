@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "scss": "node-sass public/main.scss dist/public/main.min.css --output-style compressed --source-map-embed",
-    "build-server": "babel server --out-dir dist/server --source-maps inline",
+    "build-server": "babel server --out-dir dist/server --source-maps inline && cp server/secrets.json dist/server",
     "build-client": "babel public --out-dir dist/public --source-maps inline && cp public/index.html dist/public/",
     "browserify": "browserify dist/public/app.js -o dist/public/bundle.js",
     "build": "rm -rf dist/ && npm run scss && npm run build-client && npm run browserify && npm run build-server",
@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "body-parser": "^1.16.1",
+    "documentdb": "^1.10.2",
     "express": "^4.14.0",
+    "nconf": "^0.8.4",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

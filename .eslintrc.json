@@ -23,7 +23,8 @@
         "valid-typeof": "warn",
         "react/self-closing-comp": "warn",
         "quotes": ["warn", "double"],
-        "no-console": "warn"
+        "no-console": "warn",
+        "prefer-const": "warn"
     },
     "plugins": [
         "react"
