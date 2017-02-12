@@ -24,7 +24,7 @@ class BookList extends React.Component {
 
     render() {
         const books = [];
-        for (let key in this.state) {
+        for (const key in this.state) {
             if (this.state.hasOwnProperty(key)) {
                 books.push(this.state[key]);
 

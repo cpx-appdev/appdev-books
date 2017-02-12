@@ -6,7 +6,6 @@ class Borrow extends React.Component {
         this.borrow = this.borrow.bind(this);
     }
     borrow() {
-        //not working, props are read-only, so how to edit the book given from BookList??
         this.props.borrow(this.input.value);
     }
 

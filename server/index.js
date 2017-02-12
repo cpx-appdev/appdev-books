@@ -31,7 +31,6 @@ const books = [
 
 function addBook(book) {
     return new Promise((resolve, reject) => {
-        console.log(collectionUrl);
         documentdbClient.createDocument(collectionUrl, book, (error, book) => {
             if (error) {
                 reject(error);

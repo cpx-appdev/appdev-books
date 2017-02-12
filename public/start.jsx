@@ -12,7 +12,7 @@ class Start extends React.Component {
     const { loading } = this.state;
 
     if (loading) {
-      return null; // render null when app is not ready
+      return null;
     }
 
     return <div>
