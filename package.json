@@ -1,6 +1,6 @@
 {
-  "name": "react-es6-poc",
-  "version": "1.0.0",
+  "name": "appdev-books",
+  "version": "0.0.1",
   "scripts": {
     "scss": "node-sass public/main.scss dist/public/main.min.css --output-style compressed --source-map-embed",
     "build-server": "babel server --out-dir dist/server --source-maps inline && cp server/secrets.json dist/server",
