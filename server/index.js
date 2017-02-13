@@ -23,13 +23,6 @@ const documentdbClient = new documentdb.DocumentClient(secrets.documentdb_endpoi
 const databaseUrl = `dbs/${secrets.documentdb_database}`;
 const collectionUrl = `${databaseUrl}/colls/${secrets.documentdb_collection}`;
 
-const books = [
-    { id: "21", isbn: "978-3-86680-192-9", title: "Book 1", "borrowedFrom": "" },
-    { id: "42", isbn: "978-3-86680-192-9", title: "Book 2", "borrowedFrom": "" },
-    { id: "84", isbn: "978-3-86680-192-9", title: "Book 2", "borrowedFrom": "" }
-];
-
-
 function addBook(book) {
     return new Promise((resolve, reject) => {
         documentdbClient.createDocument(collectionUrl, book, (error, book) => {
@@ -74,31 +67,35 @@ function getBookById(id) {
 }
 
 function addBookByIsbn(isbn) {
-    request(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
-        (error, response, body) => {
-            if (!error && response.statusCode == 200) {
-                const bookDetails = JSON.parse(body);
+    return new Promise((resolve, reject) => {
+        request(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
+            (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    const bookDetails = JSON.parse(body);
 
-                if (bookDetails && bookDetails.totalItems > 0) {
-                    books.push({
-                        id: uuid.v4(),
-                        author: bookDetails.items[0].volumeInfo.authors.join(", "),
-                        title: bookDetails.items[0].volumeInfo.title,
-                        subtitle: "",
-                        publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
-                        edition: "",
-                        language: "",
-                        info: "",
-                        coverSmallUrl: "",
-                        coverUrl: "",
-                        pageCount: "",
-                        isbn: isbn,
-                        genre: "",
-                        publisher: bookDetails.items[0].volumeInfo.publisher
-                    });
+                    if (bookDetails && bookDetails.totalItems > 0) {
+                        addBook({
+                            id: uuid.v4(),
+                            author: bookDetails.items[0].volumeInfo.authors.join(", "),
+                            title: bookDetails.items[0].volumeInfo.title,
+                            subtitle: "",
+                            publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
+                            edition: "",
+                            language: "",
+                            info: "",
+                            coverSmallUrl: "",
+                            coverUrl: "",
+                            pageCount: "",
+                            isbn: isbn,
+                            genre: "",
+                            publisher: bookDetails.items[0].volumeInfo.publisher
+                        })
+                            .then(book => resolve(book))
+                            .catch(error => reject(error));
+                    }
                 }
-            }
-        });
+            });
+    });
 }
 
 // getBookById("21")
@@ -113,8 +110,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", express.static(path.resolve(__dirname + "/../public")));
 
 app.post("/addBook", (req, res) => {
-    addBookByIsbn(req.body.isbn);
-    res.sendStatus(200);
+    addBookByIsbn(req.body.isbn)
+        .then(() => { res.sendStatus(200); })
+        .catch(() => { res.sendStatus(500); });
 });
 
 
