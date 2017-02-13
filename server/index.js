@@ -78,22 +78,25 @@ function addBookByIsbn(isbn) {
         (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 const bookDetails = JSON.parse(body);
-                books.push({
-                    id: uuid.v4(),
-                    author: bookDetails.items[0].volumeInfo.authors.join(", "),
-                    title: bookDetails.items[0].volumeInfo.title,
-                    subtitle: "",
-                    publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
-                    edition: "",
-                    language: "",
-                    info: "",
-                    coverSmallUrl: "",
-                    coverUrl: "",
-                    pageCount: "",
-                    isbn: isbn,
-                    genre: "",
-                    publisher: bookDetails.items[0].volumeInfo.publisher
-                });
+
+                if (bookDetails && bookDetails.totalItems > 0) {
+                    books.push({
+                        id: uuid.v4(),
+                        author: bookDetails.items[0].volumeInfo.authors.join(", "),
+                        title: bookDetails.items[0].volumeInfo.title,
+                        subtitle: "",
+                        publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
+                        edition: "",
+                        language: "",
+                        info: "",
+                        coverSmallUrl: "",
+                        coverUrl: "",
+                        pageCount: "",
+                        isbn: isbn,
+                        genre: "",
+                        publisher: bookDetails.items[0].volumeInfo.publisher
+                    });
+                }
             }
         });
 }
