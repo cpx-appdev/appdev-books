@@ -93,6 +93,12 @@ function addBookByIsbn(isbn) {
                             .then(book => resolve(book))
                             .catch(error => reject(error));
                     }
+                    else {
+                        reject("No book found");
+                    }
+                }
+                else {
+                    reject(error);
                 }
             });
     });
