@@ -123,7 +123,7 @@ app.post("/addBook", (req, res) => {
 
 
 app.get("/books", (req, res) => {
-    res.json(books);
+    getBooks().then(books => res.json(books));
 });
 
 httpServer.listen(port, () => {
