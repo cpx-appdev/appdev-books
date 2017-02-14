@@ -1,9 +1,19 @@
 import React from "react";
 import Borrow from "./borrow";
+import io from "socket.io-client";
 
 class BookList extends React.Component {
     constructor() {
         super();
+        this.socket = io();
+        this.initSocket();
+    }
+
+    initSocket() {
+        this.socket.on("bookAdded", (book) => {
+            console.log(book);
+            // this.setState({ [book.id]: book });
+        });
     }
 
     componentDidMount() {

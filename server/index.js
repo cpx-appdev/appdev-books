@@ -6,10 +6,15 @@ import bodyParser from "body-parser";
 import documentdb from "documentdb";
 import nconf from "nconf";
 import request from "request";
+import socketIo from "socket.io";
 
 const port = process.env.PORT || 8080;
 const app = express();
 const httpServer = http.Server(app);
+const socketIoServer = socketIo(httpServer, {
+    pingTimeout: 2000,
+    pingInterval: 2000
+});
 
 nconf.file(path.resolve(__dirname + "/secrets.json")).env();
 const secrets = {
@@ -124,6 +129,11 @@ app.post("/addBook", (req, res) => {
 
 app.get("/books", (req, res) => {
     getBooks().then(books => res.json(books));
+});
+
+socketIoServer.on("connection", (socket) => {
+    const clientIp = socket.request.connection.remoteAddress;
+    console.log("Client connected:\t" + clientIp);
 });
 
 httpServer.listen(port, () => {
