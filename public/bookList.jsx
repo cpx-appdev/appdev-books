@@ -11,9 +11,8 @@ class BookList extends React.Component {
 
     initSocket() {
         this.socket.on("bookAdded", (book) => {
-            console.log(book);
-            // this.setState({ [book.id]: book });
-        });
+            this.setState({ [book.id]: book });
+        });        
     }
 
     componentDidMount() {

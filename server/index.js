@@ -78,10 +78,10 @@ function addBookByIsbn(isbn) {
                 if (!error && response.statusCode == 200) {
                     const bookDetails = JSON.parse(body);
 
-                    if (bookDetails && bookDetails.totalItems > 0) {
+                    if (bookDetails && bookDetails.totalItems > 0 && bookDetails.items[0].volumeInfo) {
                         addBook({
                             id: uuid.v4(),
-                            author: bookDetails.items[0].volumeInfo.authors.join(", "),
+                            author: bookDetails.items[0].volumeInfo.authors ? bookDetails.items[0].volumeInfo.authors.join(", ") : "",
                             title: bookDetails.items[0].volumeInfo.title,
                             subtitle: "",
                             publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
@@ -120,11 +120,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", express.static(path.resolve(__dirname + "/../public")));
 
-app.post("/addBook", (req, res) => {
-    addBookByIsbn(req.body.isbn)
-        .then(() => { res.sendStatus(200); })
-        .catch(() => { res.sendStatus(500); });
-});
+// app.post("/addBook", (req, res) => {
+//     addBookByIsbn(req.body.isbn)
+//         .then(book => { socketIoServer.sockets.emit("bookAdded", book); res.sendStatus(200); })
+//         .catch(() => { res.sendStatus(500); });
+// });
 
 
 app.get("/books", (req, res) => {
@@ -134,6 +134,15 @@ app.get("/books", (req, res) => {
 socketIoServer.on("connection", (socket) => {
     const clientIp = socket.request.connection.remoteAddress;
     console.log("Client connected:\t" + clientIp);
+
+    socket.on("addBook", (isbn, callback) => {
+        addBookByIsbn(isbn)
+            .then(book => {
+                socketIoServer.sockets.emit("bookAdded", book);
+                callback(true);
+            })
+            .catch((error) => callback(false, error));
+    });
 });
 
 httpServer.listen(port, () => {

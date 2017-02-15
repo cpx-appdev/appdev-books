@@ -1,5 +1,6 @@
 import React from "react";
 import Quagga from "quagga";
+import io from "socket.io-client";
 
 
 class AddBook extends React.Component {
@@ -8,18 +9,20 @@ class AddBook extends React.Component {
         this.state = { scannedIsbn: "" };
         this.addBook = this.addBook.bind(this);
         this.scanImage = this.scanImage.bind(this);
+        this.socket = io();
     }
 
     addBook() {
         const isbn = this.inputIsbn.value;
-        fetch("/addBook", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ isbn })
-        })
+        this.socket.emit("addBook", isbn, (wasSuccessful, errorMessage) => {
+            if (wasSuccessful) {
+                console.log("Successfully added new book.");
+            }
+            else {
+                console.log(`An error occured while adding new book: ${errorMessage}`);
+
+            }
+        });
     }
 
     scanImage(e) {
