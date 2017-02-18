@@ -17,3 +17,12 @@ td
 #root:empty:after {
     content: 'Loading';
 }
+
+section{
+    display: inline-block;
+    background: red;
+    width: 260px;
+    height: 130px;
+    margin: 4px;
+    vertical-align: top;
+}

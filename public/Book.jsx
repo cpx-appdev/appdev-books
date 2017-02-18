@@ -15,12 +15,12 @@ class Book extends React.Component {
     }
 
     render() {
-        return <tr>
-            <td>{this.props.book.title}</td>
-            <td>{this.props.book.author}</td>
-            <td>{this.props.book.borrowedFrom ? this.props.book.borrowedFrom : "-"}</td>
-            <td>{this.props.book.borrowedFrom ? <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button> : <Borrow borrowedFrom={this.props.book.borrowedFrom} borrow={this.borrow.bind(this, this.props.book.id)} />}</td>
-        </tr>;
+        return <section>
+            <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50-3)}...` : this.props.book.title}</header>
+            <p>{this.props.book.author}</p>
+            <p>{this.props.book.borrowedFrom ? this.props.book.borrowedFrom : "-"}</p>
+            <div>{this.props.book.borrowedFrom ? <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button> : <Borrow borrowedFrom={this.props.book.borrowedFrom} borrow={this.borrow.bind(this, this.props.book.id)} />}</div>
+        </section>;
     }
 }
 

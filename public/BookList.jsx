@@ -12,7 +12,7 @@ class BookList extends React.Component {
     initSocket() {
         this.socket.on("bookAdded", (book) => {
             this.setState({ [book.id]: book });
-        });        
+        });
     }
 
     componentDidMount() {
@@ -32,21 +32,11 @@ class BookList extends React.Component {
             }
         }
 
-        return <table>
-            <thead>
-                <tr>
-                    <th>Titel</th>
-                    <th>Autor</th>
-                    <th>Verliehen an</th>
-                    <th />
-                </tr>
-            </thead>
-            <tbody>
-                {books.map(book =>
-                    <Book key={book.id} book={book} />                    
-                )}
-            </tbody>
-        </table>;
+        return <div>
+            {books.map(book =>
+                <Book key={book.id} book={book} />
+            )}
+        </div>;
     }
 }
 
