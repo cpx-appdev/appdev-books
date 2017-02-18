@@ -1,6 +1,6 @@
 import React from "react";
-import Borrow from "./borrow";
 import io from "socket.io-client";
+import Book from "./Book";
 
 class BookList extends React.Component {
     constructor() {
@@ -23,14 +23,6 @@ class BookList extends React.Component {
             });
     }
 
-    returnBook(bookId) {
-        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: "" } }));
-    }
-
-    borrow(bookId, name) {
-        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: name } }));
-    }
-
     render() {
         const books = [];
         for (const key in this.state) {
@@ -51,12 +43,7 @@ class BookList extends React.Component {
             </thead>
             <tbody>
                 {books.map(book =>
-                    <tr key={book.id}>
-                        <td>{book.title}</td>
-                        <td>{book.author}</td>
-                        <td>{book.borrowedFrom ? book.borrowedFrom : "-"}</td>
-                        <td>{book.borrowedFrom ? <button onClick={this.returnBook.bind(this, book.id)}>Return</button> : <Borrow borrowedFrom={book.borrowedFrom} borrow={this.borrow.bind(this, book.id)} />}</td>
-                    </tr>
+                    <Book key={book.id} book={book} />                    
                 )}
             </tbody>
         </table>;

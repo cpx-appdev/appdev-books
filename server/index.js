@@ -90,10 +90,12 @@ function addBookByIsbn(isbn) {
                             info: "",
                             coverSmallUrl: "",
                             coverUrl: "",
-                            pageCount: "",
+                            pageCount: bookDetails.items[0].volumeInfo.pageCount,
                             isbn: isbn,
                             genre: "",
-                            publisher: bookDetails.items[0].volumeInfo.publisher
+                            publisher: bookDetails.items[0].volumeInfo.publisher,
+                            borrowedFrom: "",
+                            borrowedOn: ""
                         })
                             .then(book => resolve(book))
                             .catch(error => reject(error));

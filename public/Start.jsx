@@ -1,6 +1,6 @@
 import React from "react";
-import BookList from "./bookList";
-import AddBook from "./addBook";
+import BookList from "./BookList";
+import AddBook from "./AddBook";
 
 class Start extends React.Component {
   constructor() {
