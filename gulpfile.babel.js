@@ -11,6 +11,7 @@ import browserify from "browserify";
 import babelify from "babelify";
 import uglify from "gulp-uglify";
 import gulpif from "gulp-if";
+import browserSync from "browser-sync";
 
 const isProductiveBuild = false;
 
@@ -64,14 +65,35 @@ function client_transpile() {
 
 const client = gulp.parallel(client_static, client_transpile, scss);
 
-function start_server() {
+function start_server(done) {
+    //see https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e
+    let started = false;
+
+    browserSync.init({
+        proxy: {
+            target: "http://localhost:8080",
+            //to avoid conflicts with socket.io
+            //see https://browsersync.io/docs/options
+            ws: true
+        },
+        files: ["dist/public/**/*.*"]
+    });
+
     return nodemon({
         script: "dist/server/index.js"
-    });
+    })
+        .on("start", () => {
+            // to avoid nodemon being started multiple times
+            // thanks @matthisk
+            if (!started) {
+                done();
+                started = true;
+            }
+        });
 }
 
 function watch() {
-    gulp.watch("public/app.scss", scss);
+    gulp.watch("public/**/*.scss", scss);
     gulp.watch(["server/**/*", "!server/**/*.js"], server_static);
     gulp.watch("server/**/*.js", server_transpile);
     gulp.watch(["public/**/*", "!public/**/*.jsx", "!public/**/*.scss"], client_static);
