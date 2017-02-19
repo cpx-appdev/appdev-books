@@ -1,5 +1,7 @@
+@import "common";
+
 body {
-    background: #0d0d0d;
+    background: $background;
     color: #ededed;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -8,8 +10,7 @@ h1 {
     font-weight: lighter;
 }
 
-td
-{
+td {
     text-align: center;
     padding: 4px 10px;
 }
@@ -20,13 +21,4 @@ td
 
 .show-loading:empty:after {
     content: 'Loading';
-}
-
-section{
-    display: inline-block;
-    background: red;
-    width: 260px;
-    height: 130px;
-    margin: 4px;
-    vertical-align: top;
 }

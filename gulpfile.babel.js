@@ -38,11 +38,11 @@ const server = gulp.parallel(server_static, server_transpile);
 
 
 function scss() {
-    return gulp.src("public/main.scss")
+    return gulp.src("public/app.scss")
         .pipe(sourcemaps.init())
         .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError))
         .pipe(sourcemaps.write())
-        .pipe(rename("main.min.css"))
+        .pipe(rename("app.css"))
         .pipe(gulp.dest("dist/public"));
 }
 
@@ -58,7 +58,7 @@ function client_transpile() {
         .pipe(source("app.js"))
         .pipe(buffer())
         .pipe(gulpif(isProductiveBuild, uglify()))
-        .pipe(rename("bundle.js"))
+        .pipe(rename("app.js"))
         .pipe(gulp.dest("dist/public"));
 }
 
@@ -71,11 +71,11 @@ function start_server() {
 }
 
 function watch() {
-    gulp.watch("public/main.scss", scss);
+    gulp.watch("public/app.scss", scss);
     gulp.watch(["server/**/*", "!server/**/*.js"], server_static);
-    gulp.watch("server/*.js", server_transpile);
+    gulp.watch("server/**/*.js", server_transpile);
     gulp.watch(["public/**/*", "!public/**/*.jsx", "!public/**/*.scss"], client_static);
-    gulp.watch("public/*.jsx", client_transpile);
+    gulp.watch("public/**/*.jsx", client_transpile);
 }
 
 

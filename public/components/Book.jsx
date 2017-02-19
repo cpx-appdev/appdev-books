@@ -15,7 +15,7 @@ class Book extends React.Component {
     }
 
     render() {
-        return <section>
+        return <section className="book">
             <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50-3)}...` : this.props.book.title}</header>
             <p>{this.props.book.author}</p>
             <p>{this.props.book.borrowedFrom ? this.props.book.borrowedFrom : "-"}</p>

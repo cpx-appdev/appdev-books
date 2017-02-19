@@ -1,0 +1,8 @@
+section.book {
+    display: inline-block;
+    background: lighten($background, 8%);
+    width: 260px;
+    height: 130px;
+    margin: 4px;
+    vertical-align: top;
+}
