@@ -5,7 +5,13 @@ import AddBook from "./AddBook";
 class Start extends React.Component {
   constructor() {
     super();
-    this.state = { loading: true };
+    this.setName = this.setName.bind(this);
+    this.state = { loading: true, nameSet: localStorage.getItem("username") != null };
+  }
+
+  setName() {
+    localStorage.username = this.input.value;
+    this.setState({ nameSet: true });
   }
 
   render() {
@@ -15,11 +21,19 @@ class Start extends React.Component {
       return null;
     }
 
-    return <div>
-      <h1>Books</h1>
-      <BookList />
-      <AddBook />
-    </div>
+    if (!this.state.nameSet) {
+      return <span>
+        <input type="text" ref={(input) => this.input = input} />
+        <button onClick={this.setName}>OK</button>
+      </span>;
+    }
+    else {
+      return <div>
+        <h1>Books</h1>
+        <BookList />
+        <AddBook />
+      </div>
+    }
   }
 
   componentDidMount() {
