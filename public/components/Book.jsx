@@ -1,25 +1,32 @@
 import React from "react";
-import Borrow from "./Borrow";
 
 class Book extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        this.state = { book: props.book };
+        this.returnBook = this.returnBook.bind(this);
+        this.borrow = this.borrow.bind(this);
     }
 
     returnBook(bookId) {
-        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: "" } }));
+        this.setState((previousState) => ({ book: { ...previousState[bookId], borrowedFrom: "" } }));
     }
 
-    borrow(bookId, name) {
-        this.setState((previousState) => ({ [bookId]: { ...previousState[bookId], borrowedFrom: name } }));
+    borrow(bookId) {
+        const name = localStorage.username;
+        this.setState((previousState) => ({ book: { ...previousState[bookId], borrowedFrom: name } }));
+        console.dir(this.state);
     }
 
     render() {
         return <section className="book">
-            <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50-3)}...` : this.props.book.title}</header>
-            <p>{this.props.book.author}</p>
-            <p>{this.props.book.borrowedFrom ? this.props.book.borrowedFrom : "-"}</p>
-            <div>{this.props.book.borrowedFrom ? <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button> : <Borrow borrowedFrom={this.props.book.borrowedFrom} borrow={this.borrow.bind(this, this.props.book.id)} />}</div>
+            <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50 - 3)}...` : this.props.book.title}</header>
+            <p className="author">{this.props.book.author}</p>
+            <div>{this.state.book.borrowedFrom ?
+                <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return (borrow by {this.state.book.borrowedFrom})</button>
+                : <button onClick={this.borrow.bind(this, this.props.book.id)}>Borrow</button>}
+            </div>
         </section>;
     }
 }
