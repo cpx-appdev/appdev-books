@@ -1,8 +1,19 @@
 section.book {
+    header {
+        font-weight: lighter;
+        font-size: 1rem;
+    }
+    p.author {
+        margin: 4px 0;
+        padding: 0;
+        font-size: 0.85em;
+        color: rgba($color, 0.8);
+    }
     display: inline-block;
     background: lighten($background, 8%);
     width: 260px;
     height: 130px;
     margin: 4px;
+    padding: 4px 6px;
     vertical-align: top;
 }
