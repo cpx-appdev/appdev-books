@@ -32,7 +32,7 @@ class BookList extends React.Component {
             }
         }
 
-        return <div>
+        return <div className="show-loading">
             {books.map(book =>
                 <Book key={book.id} book={book} />
             )}

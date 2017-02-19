@@ -18,6 +18,10 @@ td
     content: 'Loading';
 }
 
+.show-loading:empty:after {
+    content: 'Loading';
+}
+
 section{
     display: inline-block;
     background: red;
