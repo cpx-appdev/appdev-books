@@ -14,15 +14,7 @@ class AddBook extends React.Component {
 
     addBook() {
         const isbn = this.inputIsbn.value;
-        this.socket.emit("addBook", isbn, (wasSuccessful, errorMessage) => {
-            if (wasSuccessful) {
-                console.log("Successfully added new book.");
-            }
-            else {
-                console.log(`An error occured while adding new book: ${errorMessage}`);
-
-            }
-        });
+        this.socket.emit("addBook", isbn);
     }
 
     scanImage(e) {

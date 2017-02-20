@@ -13,6 +13,14 @@ class BookList extends React.Component {
         this.socket.on("bookAdded", (book) => {
             this.setState({ [book.id]: book });
         });
+
+        this.socket.on("bookBorrowed", (book) => {
+            this.setState({ [book.id]: book });
+        });
+
+        this.socket.on("bookReturned", (book) => {
+            this.setState({ [book.id]: book });
+        });
     }
 
     componentDidMount() {
@@ -33,8 +41,7 @@ class BookList extends React.Component {
         }
 
         return <div className="show-loading">
-            {books.map(book =>
-                <Book key={book.id} book={book} />
+            {books.map(book => <Book key={book.id} book={book} />
             )}
         </div>;
     }

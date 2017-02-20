@@ -111,6 +111,50 @@ function addBookByIsbn(isbn) {
     });
 }
 
+function borrowBook(bookId, name) {
+    return new Promise((resolve, reject) => {
+        const documentUrl = `${collectionUrl}/docs/${bookId}`;
+
+        getBookById(bookId).then(book => {
+            book.borrowedFrom = name;
+            book.borrowedOn = new Date().toLocaleDateString();
+            documentdbClient.replaceDocument(documentUrl, book, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        }).catch(error => {
+            reject(error);
+
+        });
+    });
+}
+
+function returnBook(bookId) {
+    return new Promise((resolve, reject) => {
+        const documentUrl = `${collectionUrl}/docs/${bookId}`;
+
+        getBookById(bookId).then(book => {
+            book.borrowedFrom = "";
+            book.borrowedOn = "";
+            documentdbClient.replaceDocument(documentUrl, book, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        }).catch(error => {
+            reject(error);
+
+        });
+    });
+}
+
 // getBookById("21")
 //     .then(book => {
 //         console.dir(book);
@@ -137,13 +181,25 @@ socketIoServer.on("connection", (socket) => {
     const clientIp = socket.request.connection.remoteAddress;
     console.log("Client connected:\t" + clientIp);
 
-    socket.on("addBook", (isbn, callback) => {
+    socket.on("addBook", (isbn) => {
         addBookByIsbn(isbn)
             .then(book => {
                 socketIoServer.sockets.emit("bookAdded", book);
-                callback(true);
-            })
-            .catch((error) => callback(false, error));
+            });
+    });
+
+    socket.on("borrowBook", (id, name) => {
+        borrowBook(id, name)
+            .then(book => {
+                socketIoServer.sockets.emit("bookBorrowed", book);
+            });
+    });
+
+    socket.on("returnBook", (id, name) => {
+        returnBook(id, name)
+            .then(book => {
+                socketIoServer.sockets.emit("bookReturned", book);
+            });
     });
 });
 
