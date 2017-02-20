@@ -12,12 +12,25 @@ import babelify from "babelify";
 import uglify from "gulp-uglify";
 import gulpif from "gulp-if";
 import browserSync from "browser-sync";
+import plumber from "gulp-plumber";
+import gutil from "gulp-util";
 
 const isProductiveBuild = false;
 
 if (isProductiveBuild) {
     process.env.NODE_ENV = "production";
 }
+
+
+//global error handling or gulp.src
+const _gulpsrc = gulp.src;
+gulp.src = (...args) => _gulpsrc(...args).pipe(plumber({
+    errorHandler: function (error) {
+        gutil.log(`Error: ${error.message}`);
+        this.emit("end");
+    }
+}));
+
 
 const clean = () => del(["dist"]);
 
@@ -56,6 +69,10 @@ function client_transpile() {
     return browserify({ entries: "public/app.jsx", extensions: [".jsx"], debug: !isProductiveBuild })
         .transform(babelify)
         .bundle()
+        .on("error", function (error) {
+            gutil.log(`Error: ${error.toString()}`);
+            this.emit("end");
+        })
         .pipe(source("app.js"))
         .pipe(buffer())
         .pipe(gulpif(isProductiveBuild, uglify()))
