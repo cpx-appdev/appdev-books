@@ -92,7 +92,7 @@ function addBookByIsbn(isbn) {
                             coverUrl: "",
                             pageCount: bookDetails.items[0].volumeInfo.pageCount,
                             isbn: isbn,
-                            genre: "",
+                            category: "",
                             publisher: bookDetails.items[0].volumeInfo.publisher,
                             borrowedFrom: "",
                             borrowedOn: ""

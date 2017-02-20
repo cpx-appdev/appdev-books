@@ -47,7 +47,7 @@ Book.propTypes = {
         coverUrl: React.PropTypes.string,
         pageCount: React.PropTypes.number,
         isbn: React.PropTypes.string,
-        genre: React.PropTypes.string,
+        category: React.PropTypes.string,
         publisher: React.PropTypes.string,
         borrowedFrom: React.PropTypes.string,
         borrowedOn: React.PropTypes.instanceOf(Date)
