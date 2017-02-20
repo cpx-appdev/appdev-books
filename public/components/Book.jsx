@@ -50,7 +50,7 @@ Book.propTypes = {
         category: React.PropTypes.string,
         publisher: React.PropTypes.string,
         borrowedFrom: React.PropTypes.string,
-        borrowedOn: React.PropTypes.instanceOf(Date)
+        borrowedOn: React.PropTypes.string
     })
 };
 
