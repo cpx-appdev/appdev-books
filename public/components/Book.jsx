@@ -8,6 +8,7 @@ class Book extends React.Component {
         this.returnBook = this.returnBook.bind(this);
         this.borrow = this.borrow.bind(this);
         this.socket = io();
+        this.name = localStorage.username;
     }
 
     returnBook(bookId) {
@@ -15,19 +16,29 @@ class Book extends React.Component {
     }
 
     borrow(bookId) {
-        const name = localStorage.username;
-        this.socket.emit("borrowBook", bookId, name);
+        this.socket.emit("borrowBook", bookId, this.name);
     }
 
     render() {
+
+        let action;
+
+        if (this.props.book.borrowedFrom) {
+            if (this.props.book.borrowedFrom == this.name) {
+                action = <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button>;
+            }
+        }
+        else {
+            action = <button onClick={this.borrow.bind(this, this.props.book.id)}>Borrow</button>;
+        }
+
+        const borrowInfo = this.props.book.borrowedFrom ? `Borrowed from ${this.props.book.borrowedFrom} on ${this.props.book.borrowedOn}` : "";
+
         return <section className="book">
             <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50 - 3)}...` : this.props.book.title}</header>
             <p className="author">{this.props.book.author}</p>
-            <p>{this.props.book.borrowedOn}</p>
-            <div>{this.props.book.borrowedFrom ?
-                <button onClick={this.returnBook.bind(this, this.props.book.id)}>Return (borrow by {this.props.book.borrowedFrom})</button>
-                : <button onClick={this.borrow.bind(this, this.props.book.id)}>Borrow</button>}
-            </div>
+            <p>{borrowInfo}</p>
+            <div>{action}</div>
         </section>;
     }
 }
