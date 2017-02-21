@@ -1,0 +1,20 @@
+@import "common";
+.start {
+    >header {
+        background: $background;
+        margin-bottom: 12px;
+        display: block;
+        box-shadow: 0 0 10px 4px darken($background, 10%);
+        h1 {
+            margin: 0;
+            padding: 14px 20px 10px;
+            font-weight: lighter;
+            font-size: 1.8rem;
+        }
+        .addBook {
+            position: absolute;
+            right: 14px;
+            top: 11px;
+        }
+    }
+}

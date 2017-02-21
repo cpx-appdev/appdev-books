@@ -28,10 +28,12 @@ class Start extends React.Component {
       </span>;
     }
     else {
-      return <div>
-        <h1>Books</h1>
+      return <div className="start flex layout-v">
+        <header>
+          <h1>AppDev Books</h1>
+          <AddBook />
+        </header>
         <BookList />
-        <AddBook />
       </div>
     }
   }

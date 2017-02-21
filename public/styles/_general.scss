@@ -1,19 +1,15 @@
 @import "common";
+html {
+    height: 100%;
+}
 
 body {
     background: $background;
     color: $color;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
-}
-
-h1 {
-    font-weight: lighter;
-}
-
-td {
-    text-align: center;
-    padding: 4px 10px;
+    margin: 0;
+    min-height: 100%;
 }
 
 #root:empty:after {
@@ -22,4 +18,41 @@ td {
 
 .show-loading:empty:after {
     content: 'Loading';
+}
+
+%btn-common {
+    box-shadow: 0 0 6px 0 darken($background, 10%);
+    color: $color;
+    padding: 8px 12px;
+    min-width: 80px;
+    border: none;
+    outline: none;
+    margin: 4px;
+    box-sizing: content-box;
+    cursor: pointer;
+    transition: background 0.15s ease-out;
+    user-select: none;
+}
+
+.btn-primary {
+    @extend %btn-common;
+    background: $accent;
+    &:hover {
+        background: lighten($accent, 5%);
+    }
+    &:active {
+        background: desaturate(lighten($accent, 5%), 30%);
+    }
+}
+
+.btn-secondary {
+    @extend %btn-common;
+    background: transparent;
+    border: 1px solid darken($background, 5%);
+    &:hover {
+        background: rgba(lighten($background, 10%), 0.4);
+    }
+    &:active {
+        background: rgba(darken($background, 5%), 0.4);
+    }
 }
