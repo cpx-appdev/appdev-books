@@ -26,7 +26,7 @@ class Book extends React.Component {
 
         if (this.props.book.borrowedFrom) {
             if (this.props.book.borrowedFrom == this.name) {
-                action = <button className="btn-primary" onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button>;
+                action = <button className="btn-primary" onClick={this.returnBook.bind(this, this.props.book.id)}>Zurückgeben</button>;
                 borrowInfo = <p className="borrowInfo">Ausgeliehen am {this.props.book.borrowedOn}</p>;
             }
             else {
@@ -34,7 +34,7 @@ class Book extends React.Component {
             }
         }
         else {
-            action = <button className="btn-secondary" onClick={this.borrow.bind(this, this.props.book.id)}>Borrow</button>;
+            action = <button className="btn-secondary" onClick={this.borrow.bind(this, this.props.book.id)}>Ausleihen</button>;
         }
 
         return <section className="book">

@@ -46,7 +46,7 @@ class AddBook extends React.Component {
     render() {
         return <div className="addBook">
             {/*<input type="text" ref={(input) => this.inputIsbn = input} />*/}
-            <button className="btn-primary" onClick={this.addBook}>Add Book</button>
+            <button className="btn-primary" onClick={this.addBook}>Neues Buch hinzufügen</button>
             {/*<br />*/}
             {/*<input type="text" readOnly value={this.state.scannedIsbn} />*/}
             {/*<input onChange={this.scanImage} type="file" capture="camera" accept="image/*" />*/}
