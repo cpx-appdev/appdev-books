@@ -1,9 +1,9 @@
 section.book {
     position: relative;
     display: inline-block;
-    box-shadow: 0 0 1px 0 darken($background, 10%);
-    border: 1px solid rgba(darken($background, 20%), 0.5);
-    background: lighten($background, 4%);
+    box-shadow: 0 0 1px 0 darken($primaryColor, 10%);
+    border: 1px solid rgba(darken($primaryColor, 20%), 0.5);
+    background: lighten($primaryColor, 4%);
     width: 280px;
     height: 120px;
     margin: 8px;
@@ -17,7 +17,7 @@ section.book {
         margin: 4px 0;
         padding: 0;
         font-size: 0.85rem;
-        color: rgba($color, 0.8);
+        color: rgba($textColor, 0.8);
     }
     p.borrowInfo {
         padding: 0;
@@ -32,7 +32,7 @@ section.book {
             text-align: right;
             font-size: 0.9rem;
             font-weight: bold;
-            color: $accent;
+            color: $secondaryColor;
         }
     }
     button {
