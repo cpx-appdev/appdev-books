@@ -1,9 +1,9 @@
 section.book {
     position: relative;
     display: inline-block;
-    box-shadow: 0 0 8px 0 darken($background, 10%);
-    // border: 1px solid darken($background, 10%);
-    background: lighten($background, 1%);
+    box-shadow: 0 0 1px 0 darken($background, 10%);
+    border: 1px solid rgba(darken($background, 20%), 0.5);
+    background: lighten($background, 4%);
     width: 280px;
     height: 120px;
     margin: 8px;

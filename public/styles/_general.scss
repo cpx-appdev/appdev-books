@@ -32,8 +32,8 @@ body {
     user-select: none;
 
     background: $accent;
-    border: none;
-    box-shadow: 0 0 6px 2px darken($background, 10%);
+    border: 1px solid darken($background, 5%);
+    box-shadow: 0 0 6px 0 darken($background, 10%);
     &:hover {
         background: lighten($accent, 5%);
     }
@@ -46,7 +46,7 @@ body {
     @extend .btn-primary;
     background: transparent;
     border: 1px solid darken($background, 5%);
-    box-shadow: 0 0 6px 0 darken($background, 10%);
+    box-shadow: 0 0 2px 0 darken($background, 10%);
     &:hover {
         background: rgba(lighten($background, 10%), 0.4);
     }
