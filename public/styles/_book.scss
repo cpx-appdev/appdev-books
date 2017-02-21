@@ -1,11 +1,12 @@
 section.book {
+    position: relative;
     display: inline-block;
     box-shadow: 0 0 8px 0 darken($background, 10%);
     // border: 1px solid darken($background, 10%);
     background: lighten($background, 1%);
-    width: 260px;
-    height: 130px;
-    margin: 4px;
+    width: 280px;
+    height: 120px;
+    margin: 8px;
     padding: 4px 6px;
     vertical-align: top;
     header {
@@ -15,7 +16,28 @@ section.book {
     p.author {
         margin: 4px 0;
         padding: 0;
-        font-size: 0.85em;
+        font-size: 0.85rem;
         color: rgba($color, 0.8);
+    }
+    p.borrowInfo {
+        padding: 0;
+        margin: 0;
+        font-size: 0.7rem;
+        position: absolute;
+        left: 6px;
+        bottom: 6px;
+        &.big {
+            left: auto;
+            right: 6px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: $accent;
+        }
+    }
+    button {
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
     }
 }

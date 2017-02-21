@@ -2,19 +2,19 @@
 .start {
     >header {
         background: $background;
-        margin-bottom: 12px;
+        margin-bottom: 28px;
         display: block;
         box-shadow: 0 0 10px 4px darken($background, 10%);
         h1 {
             margin: 0;
-            padding: 14px 20px 10px;
+            padding: 10px 20px;
             font-weight: lighter;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
         .addBook {
             position: absolute;
             right: 14px;
-            top: 11px;
+            top: 6px;
         }
     }
 }

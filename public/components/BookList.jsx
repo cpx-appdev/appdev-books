@@ -40,7 +40,7 @@ class BookList extends React.Component {
             }
         }
 
-        return <div className="show-loading flex">
+        return <div className="show-loading flex" style={{ padding: "0 12px" }}>
             {books.map(book => <Book key={book.id} book={book} />
             )}
         </div>;

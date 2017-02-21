@@ -21,23 +21,26 @@ class Book extends React.Component {
 
     render() {
 
-        let action;
+        let borrowInfo = "";
+        let action = null;
 
         if (this.props.book.borrowedFrom) {
             if (this.props.book.borrowedFrom == this.name) {
                 action = <button className="btn-primary" onClick={this.returnBook.bind(this, this.props.book.id)}>Return</button>;
+                borrowInfo = <p className="borrowInfo">Ausgeliehen am {this.props.book.borrowedOn}</p>;
+            }
+            else {
+                borrowInfo = <p className="borrowInfo big">Ausgeliehen von {this.props.book.borrowedFrom} am {this.props.book.borrowedOn}</p>;
             }
         }
         else {
             action = <button className="btn-secondary" onClick={this.borrow.bind(this, this.props.book.id)}>Borrow</button>;
         }
 
-        const borrowInfo = this.props.book.borrowedFrom ? `Borrowed from ${this.props.book.borrowedFrom} on ${this.props.book.borrowedOn}` : "";
-
         return <section className="book">
             <header>{this.props.book.title.length > 50 ? `${this.props.book.title.substring(0, 50 - 3)}...` : this.props.book.title}</header>
             <p className="author">{this.props.book.author}</p>
-            <p>{borrowInfo}</p>
+            {borrowInfo}
             <div>{action}</div>
         </section>;
     }
