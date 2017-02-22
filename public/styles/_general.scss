@@ -12,6 +12,16 @@ body {
     min-height: 100%;
 }
 
+h1 {
+    font-weight: lighter;
+    font-size: 4rem;
+}
+
+h2 {
+    font-weight: lighter;
+    font-size: 2.4rem;
+}
+
 #root:empty:after {
     content: 'Loading';
 }
@@ -21,6 +31,8 @@ body {
 }
 
 .btn-primary {
+    font-family: inherit;
+    font-size: 0.9rem;
     color: $textColor;
     padding: 8px 12px;
     min-width: 80px;
@@ -30,7 +42,6 @@ body {
     cursor: pointer;
     transition: background 0.15s ease-out;
     user-select: none;
-
     background: $secondaryColor;
     border: 1px solid darken($primaryColor, 5%);
     box-shadow: 0 0 6px 0 darken($primaryColor, 10%);
