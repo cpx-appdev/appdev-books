@@ -54,16 +54,3 @@ body {
         background: rgba(darken($primaryColor, 5%), 0.4);
     }
 }
-
-.btn-accent {
-    @extend .btn-primary;
-    background: $accentColor;
-    border: 1px solid darken($primaryColor, 5%);
-    box-shadow: 0 0 2px 0 darken($primaryColor, 10%);
-    &:hover {
-        background: rgba(lighten($accentColor, 10%), 0.4);
-    }
-    &:active {
-        background: rgba(darken($accentColor, 5%), 0.4);
-    }
-}

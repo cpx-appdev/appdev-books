@@ -30,7 +30,7 @@ class Book extends React.Component {
                 borrowInfo = <p className="borrowInfo">Ausgeliehen am {this.props.book.borrowedOn}</p>;
             }
             else {
-                borrowInfo = <p className="borrowInfo big">Ausgeliehen von {this.props.book.borrowedFrom} am {this.props.book.borrowedOn}</p>;
+                borrowInfo = <p className="borrowInfo long">Ausgeliehen von {this.props.book.borrowedFrom} am {this.props.book.borrowedOn}</p>;
             }
         }
         else {

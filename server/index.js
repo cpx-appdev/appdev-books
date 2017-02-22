@@ -117,7 +117,8 @@ function borrowBook(bookId, name) {
 
         getBookById(bookId).then(book => {
             book.borrowedFrom = name;
-            book.borrowedOn = new Date().toLocaleDateString();
+            const date = new Date();
+            book.borrowedOn = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
             documentdbClient.replaceDocument(documentUrl, book, (error, result) => {
                 if (error) {
                     reject(error);
