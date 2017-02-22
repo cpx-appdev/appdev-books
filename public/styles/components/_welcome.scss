@@ -1,0 +1,8 @@
+@import "../common";
+#welcome {
+    text-align: center;
+    padding-top: 5rem;
+    p {
+        color: rgba($textColor, 0.6);
+    }
+}

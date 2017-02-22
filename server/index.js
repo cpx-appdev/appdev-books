@@ -182,11 +182,11 @@ socketIoServer.on("connection", (socket) => {
     const clientIp = socket.request.connection.remoteAddress;
     console.log("Client connected:\t" + clientIp);
 
-    socket.on("addBook", (isbn) => {
+    socket.on("addBook", (isbn, callback) => {
         addBookByIsbn(isbn)
             .then(book => {
                 socketIoServer.sockets.emit("bookAdded", book);
-            });
+            }).catch(error => callback(error));
     });
 
     socket.on("borrowBook", (id, name) => {

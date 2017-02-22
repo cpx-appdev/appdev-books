@@ -30,6 +30,21 @@ h2 {
     content: 'Loading';
 }
 
+input[type=text] {
+    width: 220px;
+    padding: 8px 10px;
+    border: 1px solid darken($primaryColor, 5%);
+    box-shadow: 0 0 6px 0 darken($primaryColor, 10%);
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: lighten($primaryColor, 10%);
+    color: $textColor;
+    &:focus {
+        border: 1px solid $secondaryColor;
+        outline: none;
+    }
+}
+
 .btn-primary {
     font-family: inherit;
     font-size: 0.9rem;

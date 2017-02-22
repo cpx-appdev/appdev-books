@@ -1,10 +1,9 @@
 //external
 @import "../node_modules/flex-layout/scss/flex-layout";
-
 //general
 @import "styles/general";
-
 //components
-@import "styles/book";
-@import "styles/header";
-@import "styles/welcome";
+@import "styles/components/book";
+@import "styles/components/header";
+@import "styles/components/addBook";
+@import "styles/components/welcome";
