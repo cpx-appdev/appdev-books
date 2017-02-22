@@ -186,6 +186,7 @@ socketIoServer.on("connection", (socket) => {
         addBookByIsbn(isbn)
             .then(book => {
                 socketIoServer.sockets.emit("bookAdded", book);
+                callback();
             }).catch(error => callback(error));
     });
 

@@ -19,7 +19,12 @@ class AddBook extends React.Component {
 
     addBook() {
         this.socket.emit("addBook", this.state.isbn, error => {
-            alert(error);
+            if (error) {
+                alert(error);
+            }
+            else {
+                this.hideInput();
+            }
         });
     }
 
