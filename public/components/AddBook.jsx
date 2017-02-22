@@ -87,7 +87,7 @@ class AddBook extends React.Component {
                 </span>
                 <input type="text" onChange={this.editIsbn} value={this.state.isbn} />
                 <button className="btn-secondary" onClick={this.hideInput}>Abbrechen</button>
-                <button className="btn-primary" onClick={this.addBook}>Hinzufügen</button>
+                <button className="btn-primary" onClick={this.addBook} disabled={!this.state.isbn}>Hinzufügen</button>
             </div>;
         }
 

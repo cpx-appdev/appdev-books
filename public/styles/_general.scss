@@ -60,11 +60,15 @@ input[type=text] {
     background: $secondaryColor;
     border: 1px solid darken($primaryColor, 5%);
     box-shadow: 0 0 6px 0 darken($primaryColor, 10%);
-    &:hover {
+    &:hover:not([disabled]) {
         background: lighten($secondaryColor, 5%);
     }
     &:active {
         background: desaturate(lighten($secondaryColor, 5%), 30%);
+    }
+    &[disabled] {
+        cursor: default;
+        opacity: 0.5;
     }
 }
 
@@ -73,7 +77,7 @@ input[type=text] {
     background: transparent;
     border: 1px solid darken($primaryColor, 5%);
     box-shadow: 0 0 2px 0 darken($primaryColor, 10%);
-    &:hover {
+    &:hover:not([disabled]) {
         background: rgba(lighten($primaryColor, 10%), 0.4);
     }
     &:active {
