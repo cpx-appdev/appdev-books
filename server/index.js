@@ -7,6 +7,7 @@ import documentdb from "documentdb";
 import nconf from "nconf";
 import request from "request";
 import socketIo from "socket.io";
+import { BookLookup } from "./bookLookup";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -21,9 +22,11 @@ const secrets = {
     documentdb_endpoint: nconf.get("documentdb_endpoint"),
     documentdb_primaryKey: nconf.get("documentdb_primaryKey"),
     documentdb_database: nconf.get("documentdb_database"),
-    documentdb_collection: nconf.get("documentdb_collection")
+    documentdb_collection: nconf.get("documentdb_collection"),
+    isbnDbApiKey: nconf.get("isbnDbApiKey")
 }
 
+const bookLookup = new BookLookup(secrets.isbnDbApiKey);
 const documentdbClient = new documentdb.DocumentClient(secrets.documentdb_endpoint, { masterKey: secrets.documentdb_primaryKey });
 const databaseUrl = `dbs/${secrets.documentdb_database}`;
 const collectionUrl = `${databaseUrl}/colls/${secrets.documentdb_collection}`;
@@ -71,43 +74,23 @@ function getBookById(id) {
     });
 }
 
+
+
 function addBookByIsbn(isbn) {
     return new Promise((resolve, reject) => {
-        request(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`,
-            (error, response, body) => {
-                if (!error && response.statusCode == 200) {
-                    const bookDetails = JSON.parse(body);
-
-                    if (bookDetails && bookDetails.totalItems > 0 && bookDetails.items[0].volumeInfo) {
-                        addBook({
-                            id: uuid.v4(),
-                            author: bookDetails.items[0].volumeInfo.authors ? bookDetails.items[0].volumeInfo.authors.join(", ") : "",
-                            title: bookDetails.items[0].volumeInfo.title,
-                            subtitle: "",
-                            publishedDate: bookDetails.items[0].volumeInfo.publishedDate,
-                            edition: "",
-                            language: "",
-                            info: "",
-                            coverSmallUrl: "",
-                            coverUrl: "",
-                            pageCount: bookDetails.items[0].volumeInfo.pageCount,
-                            isbn: isbn,
-                            category: "",
-                            publisher: bookDetails.items[0].volumeInfo.publisher,
-                            borrowedFrom: "",
-                            borrowedOn: ""
-                        })
-                            .then(book => resolve(book))
-                            .catch(error => reject(error));
-                    }
-                    else {
-                        reject("No book found");
-                    }
+        bookLookup.execute(isbn)
+            .then(book => {
+                if (book) {
+                    book.id = uuid.v4();
+                    book.borrowedFrom = "";
+                    book.borrowedOn = "";
+                    addBook(book);
+                    resolve(book);
                 }
                 else {
-                    reject(error);
+                    reject("No book found");
                 }
-            });
+            }).catch(reject);
     });
 }
 
