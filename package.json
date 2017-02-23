@@ -2,7 +2,8 @@
   "name": "appdev-books",
   "version": "0.0.1",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "start": "node dist/server/index.js"
   },
   "dependencies": {
     "body-parser": "^1.16.1",
