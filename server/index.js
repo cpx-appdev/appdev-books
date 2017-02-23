@@ -24,8 +24,8 @@ const secrets = {
     documentdb_database: nconf.get("documentdb_database"),
     documentdb_collection: nconf.get("documentdb_collection"),
     isbnDbApiKey: nconf.get("isbnDbApiKey"),
-    username: nconf.get("username"),
-    password: nconf.get("password")
+    username: nconf.get("auth_username"),
+    password: nconf.get("auth_password")
 }
 
 const bookLookup = new BookLookup(secrets.isbnDbApiKey);
