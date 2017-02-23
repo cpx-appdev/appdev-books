@@ -2,7 +2,6 @@ import express from "express";
 import http from "http";
 import path from "path";
 import uuid from "uuid";
-import bodyParser from "body-parser";
 import documentdb from "documentdb";
 import nconf from "nconf";
 import socketIo from "socket.io";
@@ -36,7 +35,7 @@ const collectionUrl = `${databaseUrl}/colls/${secrets.documentdb_collection}`;
 const auth = (req, res, next) => {
     function unauthorized(res) {
         res.set("WWW-Authenticate", "Basic realm=Authorization Required");
-        return res.send(401);
+        return res.sendStatus(401);
     }
 
     const user = basicAuth(req);
@@ -160,18 +159,15 @@ function returnBook(bookId) {
     });
 }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
-
-app.get("/books", (req, res) => {
-    getBooks().then(books => res.json(books));
-});
 
 socketIoServer.on("connection", (socket) => {
     const clientIp = socket.request.connection.remoteAddress;
     console.log("Client connected:\t" + clientIp);
+
+    socket.on("getBooks", (callback) => {
+        getBooks().then(books => callback(books));
+    });
 
     socket.on("addBook", (isbn, callback) => {
         addBookByIsbn(isbn)

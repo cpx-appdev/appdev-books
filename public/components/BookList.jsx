@@ -24,11 +24,9 @@ class BookList extends React.Component {
     }
 
     componentDidMount() {
-        fetch("/books")
-            .then(result => result.json())
-            .then(books => {
-                books.map(book => this.setState({ [book.id]: book }))
-            });
+        this.socket.emit("getBooks", (books) => {
+            books.map(book => this.setState({ [book.id]: book }))
+        });
     }
 
     render() {
