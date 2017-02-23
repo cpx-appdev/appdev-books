@@ -165,7 +165,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
 
-app.get("/books", auth, (req, res) => {
+app.get("/books", (req, res) => {
     getBooks().then(books => res.json(books));
 });
 
