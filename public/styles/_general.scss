@@ -22,12 +22,23 @@ h2 {
     font-size: 2.4rem;
 }
 
-#root:empty:after {
-    content: 'Loading';
+#root:empty:after,
+.show-loading:empty:after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: $secondaryColor;
+    margin: auto;
+    border-radius: 10px;
+    transform: translateX(-180px);
+    animation: loading 0.7s ease-in-out infinite;
+    box-shadow: 0 0 6px 0 darken($primaryColor, 10%);
 }
 
-.show-loading:empty:after {
-    content: 'Loading';
+@keyframes loading {
+    50% {
+        transform: translateX(180px);
+    }
 }
 
 input[type=text] {
