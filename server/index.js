@@ -5,8 +5,8 @@ import uuid from "uuid";
 import bodyParser from "body-parser";
 import documentdb from "documentdb";
 import nconf from "nconf";
-import request from "request";
 import socketIo from "socket.io";
+import basicAuth from "basic-auth";
 import { BookLookup } from "./bookLookup";
 
 const port = process.env.PORT || 8080;
@@ -23,13 +23,34 @@ const secrets = {
     documentdb_primaryKey: nconf.get("documentdb_primaryKey"),
     documentdb_database: nconf.get("documentdb_database"),
     documentdb_collection: nconf.get("documentdb_collection"),
-    isbnDbApiKey: nconf.get("isbnDbApiKey")
+    isbnDbApiKey: nconf.get("isbnDbApiKey"),
+    username: nconf.get("username"),
+    password: nconf.get("password")
 }
 
 const bookLookup = new BookLookup(secrets.isbnDbApiKey);
 const documentdbClient = new documentdb.DocumentClient(secrets.documentdb_endpoint, { masterKey: secrets.documentdb_primaryKey });
 const databaseUrl = `dbs/${secrets.documentdb_database}`;
 const collectionUrl = `${databaseUrl}/colls/${secrets.documentdb_collection}`;
+
+const auth = (req, res, next) => {
+    function unauthorized(res) {
+        res.set("WWW-Authenticate", "Basic realm=Authorization Required");
+        return res.send(401);
+    }
+
+    const user = basicAuth(req);
+
+    if (!user || !user.name || !user.pass) {
+        return unauthorized(res);
+    }
+
+    if (user.name === secrets.username && user.pass === secrets.password) {
+        return next();
+    } else {
+        return unauthorized(res);
+    }
+};
 
 function addBook(book) {
     return new Promise((resolve, reject) => {
@@ -139,25 +160,12 @@ function returnBook(bookId) {
     });
 }
 
-// getBookById("21")
-//     .then(book => {
-//         console.dir(book);
-//     })
-//     .catch(error => console.log(error));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", express.static(path.resolve(__dirname + "/../public")));
+app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
 
-// app.post("/addBook", (req, res) => {
-//     addBookByIsbn(req.body.isbn)
-//         .then(book => { socketIoServer.sockets.emit("bookAdded", book); res.sendStatus(200); })
-//         .catch(() => { res.sendStatus(500); });
-// });
-
-
-app.get("/books", (req, res) => {
+app.get("/books", auth, (req, res) => {
     getBooks().then(books => res.json(books));
 });
 
