@@ -8,6 +8,7 @@ class Header extends React.Component {
 
     render() {
         return <header>
+            <img src="/books.png" />
             <h1>AppDev Books</h1>
             <AddBook />
         </header>;
