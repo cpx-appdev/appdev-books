@@ -1,24 +1,22 @@
 import React from "react";
 import Quagga from "quagga";
-import io from "socket.io-client";
-
+import socketService from "../services/SocketService";
 
 class AddBook extends React.Component {
     constructor(props) {
         super(props);
         this.state = { isbn: "", inputVisible: false };
+
         this.addBook = this.addBook.bind(this);
         this.captureImage = this.captureImage.bind(this);
         this.processImage = this.processImage.bind(this);
         this.showInput = this.showInput.bind(this);
         this.hideInput = this.hideInput.bind(this);
         this.editIsbn = this.editIsbn.bind(this);
-
-        this.socket = io();
     }
 
     addBook() {
-        this.socket.emit("addBook", this.state.isbn, error => {
+        socketService.emit("addBook", this.state.isbn, error => {
             if (error) {
                 alert(error);
             }

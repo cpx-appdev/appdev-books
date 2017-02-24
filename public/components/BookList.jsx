@@ -1,30 +1,29 @@
 import React from "react";
-import io from "socket.io-client";
 import Book from "./Book";
+import socketService from "../services/SocketService";
 
 class BookList extends React.Component {
     constructor() {
         super();
-        this.socket = io();
         this.initSocket();
     }
 
     initSocket() {
-        this.socket.on("bookAdded", (book) => {
+        socketService.on("bookAdded", (book) => {
             this.setState({ [book.id]: book });
         });
 
-        this.socket.on("bookBorrowed", (book) => {
+        socketService.on("bookBorrowed", (book) => {
             this.setState({ [book.id]: book });
         });
 
-        this.socket.on("bookReturned", (book) => {
+        socketService.on("bookReturned", (book) => {
             this.setState({ [book.id]: book });
         });
     }
 
     componentDidMount() {
-        this.socket.emit("getBooks", (books) => {
+        socketService.emit("getBooks", (books) => {
             books.map(book => this.setState({ [book.id]: book }))
         });
     }

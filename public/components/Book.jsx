@@ -1,5 +1,5 @@
 import React from "react";
-import io from "socket.io-client";
+import socketService from "../services/SocketService";
 
 class Book extends React.Component {
     constructor(props) {
@@ -7,16 +7,15 @@ class Book extends React.Component {
 
         this.returnBook = this.returnBook.bind(this);
         this.borrow = this.borrow.bind(this);
-        this.socket = io();
         this.name = localStorage.username;
     }
 
     returnBook(bookId) {
-        this.socket.emit("returnBook", bookId);
+        socketService.emit("returnBook", bookId);
     }
 
     borrow(bookId) {
-        this.socket.emit("borrowBook", bookId, this.name);
+        socketService.emit("borrowBook", bookId, this.name);
     }
 
     render() {
