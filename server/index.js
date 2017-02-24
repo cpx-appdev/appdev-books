@@ -158,11 +158,11 @@ function returnBook(bookId) {
 
 app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
 
-socketIoServer.on("connection", (socket) => {
+socketIoServer.on("connection", socket => {
     const clientIp = socket.request.connection.remoteAddress;
     console.log("Client connected:\t" + clientIp);
 
-    socket.on("getBooks", (callback) => {
+    socket.on("getBooks", callback => {
         getBooks().then(books => callback(books));
     });
 

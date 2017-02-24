@@ -23,7 +23,7 @@ class BookList extends React.Component {
     }
 
     componentDidMount() {
-        socketService.emit("getBooks", (books) => {
+        socketService.emit("getBooks", books => {
             books.map(book => this.setState({ [book.id]: book }))
         });
     }

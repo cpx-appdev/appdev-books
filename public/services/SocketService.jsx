@@ -6,7 +6,7 @@ class SocketService {
 
     }
     emit(event, ...args) {
-        return this.socket.emit(event, args);
+        return this.socket.emit(event, ...args);
     }
 
     on(event, fn) {
