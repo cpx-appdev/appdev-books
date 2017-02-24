@@ -74,8 +74,8 @@ input[type=text] {
     &:hover:not([disabled]) {
         background: lighten($secondaryColor, 5%);
     }
-    &:active {
-        background: desaturate(lighten($secondaryColor, 5%), 30%);
+    &:active:not([disabled]) {
+        background: darken($secondaryColor, 15%);
     }
     &[disabled] {
         cursor: default;
@@ -91,7 +91,7 @@ input[type=text] {
     &:hover:not([disabled]) {
         background: rgba(lighten($primaryColor, 10%), 0.4);
     }
-    &:active {
+    &:active:not([disabled]) {
         background: rgba(darken($primaryColor, 5%), 0.4);
     }
 }
