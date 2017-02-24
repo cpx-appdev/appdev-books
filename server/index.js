@@ -10,11 +10,8 @@ import { BookLookup } from "./bookLookup";
 
 const port = process.env.PORT || 8080;
 const app = express();
-const httpServer = http.Server(app);
-const socketIoServer = socketIo(httpServer, {
-    pingTimeout: 2000,
-    pingInterval: 2000
-});
+const httpServer = http.createServer(app);
+const socketIoServer = socketIo.listen(httpServer);
 
 nconf.file(path.resolve(__dirname + "/secrets.json")).env();
 const secrets = {
