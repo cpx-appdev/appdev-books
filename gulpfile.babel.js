@@ -15,7 +15,7 @@ import browserSync from "browser-sync";
 import plumber from "gulp-plumber";
 import gutil from "gulp-util";
 
-const isProductiveBuild = false;
+const isProductiveBuild = true;
 
 if (isProductiveBuild) {
     process.env.NODE_ENV = "production";
