@@ -83,7 +83,7 @@ class AddBook extends React.Component {
                 <span onClick={this.captureImage} className="fa fa-camera">
                     <input ref={(input) => this.fileInput = input} onChange={this.processImage} type="file" capture="camera" accept="image/*" />
                 </span>
-                <input type="text" onChange={this.editIsbn} value={this.state.isbn} />
+                <input type="text" placeholder="ISBN" onChange={this.editIsbn} value={this.state.isbn} />
                 <button className="btn-secondary" onClick={this.hideInput}>Abbrechen</button>
                 <button className="btn-primary" onClick={this.addBook} disabled={!this.state.isbn}>Hinzufügen</button>
             </div>;
