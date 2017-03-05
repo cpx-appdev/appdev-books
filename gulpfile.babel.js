@@ -14,10 +14,13 @@ import gulpif from "gulp-if";
 import browserSync from "browser-sync";
 import plumber from "gulp-plumber";
 import gutil from "gulp-util";
+import yargs from "yargs";
 
-const isProductiveBuild = true;
+const argv = yargs.argv;
+const isProductiveBuild = argv.prod ? true : false;
 
 if (isProductiveBuild) {
+    gutil.log("Productive Build");
     process.env.NODE_ENV = "production";
 }
 
