@@ -50,13 +50,20 @@ const auth = (req, res, next) => {
 
 function addBook(book) {
     return new Promise((resolve, reject) => {
-        documentdbClient.createDocument(collectionUrl, book, (error, book) => {
-            if (error) {
-                reject(error);
+        existsBook(book.isbn).then(existsAlready => {
+            if (existsAlready) {
+                reject("Book exists already");
+                return;
             }
-            else {
-                resolve(book);
-            }
+            
+            documentdbClient.createDocument(collectionUrl, book, (error, book) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve(book);
+                }
+            });
         });
     });
 }
@@ -85,12 +92,25 @@ function getBookById(id) {
                 resolve(books[0]);
             }
             else {
-                reject("No document found.");
+                reject("No book found");
             }
         });
     });
 }
 
+function existsBook(isbn) {
+    return new Promise((resolve, reject) => {
+        documentdbClient.queryDocuments(collectionUrl, `SELECT VALUE r FROM root r WHERE r.isbn = "${isbn}"`
+        ).toArray((error, books) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(books.length == 1);
+            }
+        });
+    });
+}
 
 
 function addBookByIsbn(isbn) {
