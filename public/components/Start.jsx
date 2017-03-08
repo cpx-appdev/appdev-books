@@ -8,7 +8,7 @@ class Start extends React.Component {
   constructor() {
     super();
     this.setName = this.setName.bind(this);
-    this.state = { loading: true, nameSet: localStorage.getItem("username") != null };
+    this.state = { loading: true, nameSet: localStorage.getItem("username") != null, version: "" };
   }
 
   setName(name) {
@@ -30,11 +30,18 @@ class Start extends React.Component {
       return <div className="start flex layout-v">
         <Header />
         <BookList />
-      </div>
+        <div style={{ "margin": "4px 10px", "fontSize": "0.8rem", "opacity": "0.6" }}>{this.state.version}</div>
+      </div >
     }
   }
 
   componentDidMount() {
+    fetch("/version")
+      .then(result => result.json())
+      .then(result => {
+        this.setState({ version: result.version });
+      });
+
     setTimeout(() => this.setState({ loading: false }), 1500);
   }
 }

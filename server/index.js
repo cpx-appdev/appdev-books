@@ -177,8 +177,6 @@ function returnBook(bookId) {
     });
 }
 
-app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
-
 app.get("/version", (req, res, next) => {
     fs.readFile(path.resolve(__dirname + "/../public/version.txt"), "utf8", (err, data) => {
         if (!err) {
@@ -187,6 +185,9 @@ app.get("/version", (req, res, next) => {
         next();
     });
 });
+
+app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
+
 
 socketIoServer.on("connection", socket => {
     const clientIp = socket.request.connection.remoteAddress;
