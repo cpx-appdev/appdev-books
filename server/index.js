@@ -7,6 +7,7 @@ import nconf from "nconf";
 import socketIo from "socket.io";
 import basicAuth from "basic-auth";
 import { BookLookup } from "./bookLookup";
+import fs from "fs";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -55,7 +56,7 @@ function addBook(book) {
                 reject("Book exists already");
                 return;
             }
-            
+
             documentdbClient.createDocument(collectionUrl, book, (error, book) => {
                 if (error) {
                     reject(error);
@@ -177,6 +178,15 @@ function returnBook(bookId) {
 }
 
 app.use("/", auth, express.static(path.resolve(__dirname + "/../public")));
+
+app.get("/version", (req, res, next) => {
+    fs.readFile(path.resolve(__dirname + "/../public/version.txt"), "utf8", (err, data) => {
+        if (!err) {
+            res.json({ version: data });
+        }
+        next();
+    });
+});
 
 socketIoServer.on("connection", socket => {
     const clientIp = socket.request.connection.remoteAddress;
