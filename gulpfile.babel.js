@@ -56,9 +56,9 @@ const server = gulp.parallel(server_static, server_transpile);
 
 function scss() {
     return gulp.src("public/app.scss")
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(!isProductiveBuild, sourcemaps.init()))
         .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError))
-        .pipe(sourcemaps.write())
+        .pipe(gulpif(!isProductiveBuild, sourcemaps.write()))
         .pipe(rename("app.css"))
         .pipe(gulp.dest("dist/public"));
 }
